@@ -271,7 +271,7 @@
       <div class="container" v-show="logos.length">
         <p class="is-size-7 m-b-md">点击图片即可下载!(ios不支持)</p>
         <div class="columns is-mobile is-multiline">
-          <div class="column is-4-desktop is-3-tablet is-6-mobile" v-for="logo in logos">
+          <div class="column is-4-desktop is-6-tablet" v-for="logo in logos">
             <div class="box">
               <a :href="logo.url" :download="'logo' + random() +'.svg'" v-html="logo.svg"></a>
             </div>
