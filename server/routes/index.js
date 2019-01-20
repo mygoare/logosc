@@ -17,13 +17,13 @@ router.get('/crawler', async (req, res, next) => {
 
   const u = `${baseUrl}/make?n=${mainTitle}&s=${subTitle}&tag=${tag}&color=${color}`;
 
+  const args = [
+    '--no-sandbox',
+    // '--proxy-server='+proxy,
+  ];
+  const browser = await puppeteer.launch({ args });
 
   try {
-    const args = [
-      '--no-sandbox',
-      // `--proxy-server=${proxy.protocol}://${proxy.ip}:${proxy.port}`
-    ];
-    const browser = await puppeteer.launch({ args });
     const page = await browser.newPage();
     await page.goto(u, {"waitUntil" : "networkidle0"});
     const html = await page.content();
@@ -52,6 +52,7 @@ router.get('/crawler', async (req, res, next) => {
       svgs: h2Content,
     })
   } catch (err) {
+    await browser.close();
     next(err);
   }
 });
