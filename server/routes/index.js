@@ -19,12 +19,20 @@ router.get('/crawler', async (req, res, next) => {
 
   const args = [
     '--no-sandbox',
-    // '--proxy-server='+proxy,
   ];
+  if (proxy) {
+    args.push('--proxy-server='+proxy.ip)
+  }
   const browser = await puppeteer.launch({ args });
 
   try {
     const page = await browser.newPage();
+    if (proxy) {
+      await page.authenticate({
+        username: proxy.username,
+        password: proxy.pwd
+      });
+    }
     await page.goto(u, {"waitUntil" : "networkidle0"});
     const html = await page.content();
     await browser.close();
