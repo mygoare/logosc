@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Logo自动生成</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.min.css">
+  <style>
+    .is-justified-center {
+      justify-content: center;
+    }
+    .is-justified-start {
+      justify-content: flex-start;
+    }
+    .is-justified-end {
+      justify-content: flex-end;
+    }
+    .is-justified-around {
+      justify-content: space-around;
+    }
+    .is-justified-between {
+      justify-content: space-between;
+    }
+
+    .is-direction-column {
+      flex-direction: column;
+    }
+
+     .is-aligned-start {
+       align-items: flex-start;
+     }
+    .is-aligned-center {
+      align-items: center;
+    }
+    .is-aligned-end {
+      align-items: flex-end;
+    }
+    .is-aligned-stretch {
+      align-items: stretch;
+    }
+    .is-aligned-baseline {
+      align-items: baseline;
+    }
+
+    .m-none { margin: 0; }
+    .p-none { padding: 0; }
+    .m-t-none { margin-top: 0; }
+    .p-t-none { padding-top: 0; }
+    .m-r-none { margin-right: 0; }
+    .p-r-none { padding-right: 0; }
+    .m-b-none { margin-bottom: 0; }
+    .p-b-none { padding-bottom: 0; }
+    .m-l-none { margin-left: 0; }
+    .p-l-none { padding-left: 0; }
+    .m-xxs { margin: 0.125rem; }
+    .p-xxs { padding: 0.125rem; }
+    .m-t-xxs { margin-top: 0.125rem; }
+    .p-t-xxs { padding-top: 0.125rem; }
+    .m-r-xxs { margin-right: 0.125rem; }
+    .p-r-xxs { padding-right: 0.125rem; }
+    .m-b-xxs { margin-bottom: 0.125rem; }
+    .p-b-xxs { padding-bottom: 0.125rem; }
+    .m-l-xxs { margin-left: 0.125rem; }
+    .p-l-xxs { padding-left: 0.125rem; }
+    .m-xs { margin: 0.25rem; }
+    .p-xs { padding: 0.25rem; }
+    .m-t-xs { margin-top: 0.25rem; }
+    .p-t-xs { padding-top: 0.25rem; }
+    .m-r-xs { margin-right: 0.25rem; }
+    .p-r-xs { padding-right: 0.25rem; }
+    .m-b-xs { margin-bottom: 0.25rem; }
+    .p-b-xs { padding-bottom: 0.25rem; }
+    .m-l-xs { margin-left: 0.25rem; }
+    .p-l-xs { padding-left: 0.25rem; }
+    .m-sm { margin: 0.5rem; }
+    .p-sm { padding: 0.5rem; }
+    .m-t-sm { margin-top: 0.5rem; }
+    .p-t-sm { padding-top: 0.5rem; }
+    .m-r-sm { margin-right: 0.5rem; }
+    .p-r-sm { padding-right: 0.5rem; }
+    .m-b-sm { margin-bottom: 0.5rem; }
+    .p-b-sm { padding-bottom: 0.5rem; }
+    .m-l-sm { margin-left: 0.5rem; }
+    .p-l-sm { padding-left: 0.5rem; }
+    .m-md { margin: 1rem; }
+    .p-md { padding: 1rem; }
+    .m-t-md { margin-top: 1rem; }
+    .p-t-md { padding-top: 1rem; }
+    .m-r-md { margin-right: 1rem; }
+    .p-r-md { padding-right: 1rem; }
+    .m-b-md { margin-bottom: 1rem; }
+    .p-b-md { padding-bottom: 1rem; }
+    .m-l-md { margin-left: 1rem; }
+    .p-l-md { padding-left: 1rem; }
+    .m-lg { margin: 2rem; }
+    .p-lg { padding: 2rem; }
+    .m-t-lg { margin-top: 2rem; }
+    .p-t-lg { padding-top: 2rem; }
+    .m-r-lg { margin-right: 2rem; }
+    .p-r-lg { padding-right: 2rem; }
+    .m-b-lg { margin-bottom: 2rem; }
+    .p-b-lg { padding-bottom: 2rem; }
+    .m-l-lg { margin-left: 2rem; }
+    .p-l-lg { padding-left: 2rem; }
+    .m-xl { margin: 4rem; }
+    .p-xl { padding: 4rem; }
+    .m-t-xl { margin-top: 4rem; }
+    .p-t-xl { padding-top: 4rem; }
+    .m-r-xl { margin-right: 4rem; }
+    .p-r-xl { padding-right: 4rem; }
+    .m-b-xl { margin-bottom: 4rem; }
+    .p-b-xl { padding-bottom: 4rem; }
+    .m-l-xl { margin-left: 4rem; }
+    .p-l-xl { padding-left: 4rem; }
+    .m-xxl { margin: 8rem; }
+    .p-xxl { padding: 8rem; }
+    .m-t-xxl { margin-top: 8rem; }
+    .p-t-xxl { padding-top: 8rem; }
+    .m-r-xxl { margin-right: 8rem; }
+    .p-r-xxl { padding-right: 8rem; }
+    .m-b-xxl { margin-bottom: 8rem; }
+    .p-b-xxl { padding-bottom: 8rem; }
+    .m-l-xxl { margin-left: 8rem; }
+    .p-l-xxl { padding-left: 8rem; }
+
+    html, body {
+      background-color: #fff;
+    }
+
+
+    @media screen and (max-width: 1087px) {
+      body {
+        padding: 2rem 1rem;
+      }
+
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <h1 class="is-size-3">Logo自动生成，无需登录，免费下载SVG矢量文件</h1>
+
+    <div id="app" v-loading.fullscreen.lock="loading">
+
+      <div class="m-t-md m-b-md">
+        <p class="m-t-sm m-b-sm">主标题：</p>
+        <el-input
+          placeholder="主标题"
+          v-model="input1">
+        </el-input>
+
+        <p class="m-t-sm m-b-sm">副标题（选填）：</p>
+        <el-input
+          placeholder="副标题"
+          v-model="input2">
+        </el-input>
+      </div>
+
+      <div class="m-t-md m-b-md">
+        <p class="m-t-sm m-b-sm">选择行业：</p>
+        <div class="columns is-mobile is-multiline">
+          <div class="column is-narrow">
+            <el-radio v-model="radio" label="餐饮">餐饮</el-radio>
+          </div>
+          <div class="column is-narrow">
+            <el-radio v-model="radio" label="教育">教育</el-radio>
+          </div>
+          <div class="column is-narrow">
+            <el-radio v-model="radio" label="网络科技">网络科技</el-radio>
+          </div>
+          <div class="column is-narrow">
+            <el-radio v-model="radio" label="商务贸易">商务贸易</el-radio>
+          </div>
+          <div class="column is-narrow">
+            <el-radio v-model="radio" label="金融">金融</el-radio>
+          </div>
+          <div class="column is-narrow">
+            <el-radio v-model="radio" label="购物休闲">购物休闲</el-radio>
+          </div>
+          <div class="column is-narrow">
+            <el-radio v-model="radio" label="房地产">房地产</el-radio>
+          </div>
+          <div class="column is-narrow">
+            <el-radio v-model="radio" label="艺术传媒">艺术传媒</el-radio>
+          </div>
+          <div class="column is-narrow">
+            <el-radio v-model="radio" label="建材家居">建材家居</el-radio>
+          </div>
+          <div class="column is-narrow">
+            <el-radio v-model="radio" label="运动健身">运动健身</el-radio>
+          </div>
+          <div class="column is-narrow">
+            <el-radio v-model="radio" label="医疗美容">医疗美容</el-radio>
+          </div>
+          <div class="column is-narrow">
+            <el-radio v-model="radio" label="综合">其他行业</el-radio>
+          </div>
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+      </div>
+
+
+      <div class="m-t-md m-b-md">
+        <p class="m-t-sm m-b-sm">选择颜色：</p>
+        <el-checkbox-group v-model="checked">
+          <div class="columns is-mobile is-multiline">
+            <div class="column is-narrow">
+              <el-checkbox v-model="checked" label="1">灰色</el-checkbox>
+            </div>
+            <div class="column is-narrow">
+              <el-checkbox v-model="checked" label="2">蓝色</el-checkbox>
+            </div>
+            <div class="column is-narrow">
+              <el-checkbox v-model="checked" label="3">绿蓝</el-checkbox>
+            </div>
+            <div class="column is-narrow">
+              <el-checkbox v-model="checked" label="4">绿色</el-checkbox>
+            </div>
+            <div class="column is-narrow">
+              <el-checkbox v-model="checked" label="5">紫色</el-checkbox>
+            </div>
+            <div class="column is-narrow">
+              <el-checkbox v-model="checked" label="6">粉色</el-checkbox>
+            </div>
+            <div class="column is-narrow">
+              <el-checkbox v-model="checked" label="7">红色</el-checkbox>
+            </div>
+            <div class="column is-narrow">
+              <el-checkbox v-model="checked" label="8">橙色</el-checkbox>
+            </div>
+            <div class="column is-narrow">
+              <el-checkbox v-model="checked" label="">交给我吧</el-checkbox>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+
+        </el-checkbox-group>
+      </div>
+
+
+      <hr id="hr-ancher">
+
+      <div>
+        <el-button @click="crawler">智能生成图标</el-button>
+        <el-button type="primary" @click="crawler">不满意？再生成一波</el-button>
+      </div>
+
+
+      <div v-html="defs"></div>
+      <div class="container" v-show="logos.length">
+        <p class="is-size-7 m-b-md">点击图片即可下载!(ios不支持)</p>
+        <div class="columns is-mobile is-multiline">
+          <div class="column is-4-desktop is-3-tablet is-6-mobile" v-for="logo in logos">
+            <div class="box">
+              <a :href="logo.url" :download="'logo' + random() +'.svg'" v-html="logo.svg"></a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min.js"></script>
+  <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        loading: false,
+        input1: 'Logosc',
+        input2: '',
+        radio: "餐饮",
+        checked: [""],
+        defs: '',
+        logos: [],
+      },
+      computed: {
+      },
+      methods: {
+        random: function() {
+          return Math.random();
+        },
+        dl: function(content) {
+          let svgData = content;
+          let svgBlob = new Blob([svgData], {type: 'image/svg+xml;charset=utf-8'});
+          let svgUrl = URL.createObjectURL(svgBlob);
+
+          return svgUrl;
+        },
+        crawler: function(){
+          const baseUrl = 'https://www.logosc.cn';
+          const top = document.getElementById('hr-ancher').offsetTop;
+
+          const mainTitle = this.input1;
+          const subTitle = this.input2;
+          const tag = this.radio;
+          const color = this.checked.join(',');
+
+          const u = `${baseUrl}/make?n=${mainTitle}&s=${subTitle}&tag=${tag}&color=${color}`;
+
+
+          this.loading = true;
+          axios({
+            url: '/crawler',
+            params: {
+              mainTitle,
+              subTitle,
+              tag,
+              color,
+            },
+            method: 'get',
+          })
+          .then((d) => {
+            this.loading = false;
+
+            const {data} = d;
+            const {defs, svgs} = data;
+
+            this.defs = defs;
+
+            let logos = [];
+            svgs.forEach((el, index)=> {
+              let o = {};
+              o.svg = el;
+              o.url = this.dl(el);
+              o.id = index;
+
+              logos.push(o);
+            });
+
+            this.logos = logos;
+
+
+            window.scrollTo(0, top);
+          });
+
+
+          console.log(u);
+        }
+      }
+    })
+  </script>
+</body>
+</html>
