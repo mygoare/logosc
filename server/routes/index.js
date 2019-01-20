@@ -2,10 +2,11 @@ const express = require('express');
 const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 const url = 'https://www.logosc.cn/make?n=树莓派&s=&tag=教育&color=7';
+const { proxy } = require('../config');
 
 const router = express.Router();
 
-router.get('/crawler', (req, res, next) => {
+router.get('/crawler', async (req, res, next) => {
   const baseUrl = 'https://www.logosc.cn';
   const {
     mainTitle,
@@ -17,45 +18,42 @@ router.get('/crawler', (req, res, next) => {
   const u = `${baseUrl}/make?n=${mainTitle}&s=${subTitle}&tag=${tag}&color=${color}`;
 
 
-  puppeteer
-    .launch({ args: ['--no-sandbox']})
-    .then(function(browser) {
-      return browser.newPage();
-    })
-    .then(function(page) {
-      return page.goto(u, {"waitUntil" : "networkidle0"}).then(function() {
-        return page.content();
-      });
-    })
-    .then(function(html) {
-      const $ = cheerio.load(html);
+  try {
+    const args = [
+      '--no-sandbox',
+      // `--proxy-server=${proxy.protocol}://${proxy.ip}:${proxy.port}`
+    ];
+    const browser = await puppeteer.launch({ args });
+    const page = await browser.newPage();
+    await page.goto(u, {"waitUntil" : "networkidle0"});
+    const html = await page.content();
+    await browser.close();
 
-      const h2Content = [];
-
-
-      const defs = $('div:first-child');
-      $('pattern#watermark', defs).remove();
+    const $ = cheerio.load(html);
+    const h2Content = [];
 
 
-      $('.svg-card').each(function() {
-        const text = $(this).html();
-
-        $('.ShowPriceDetail', this).remove();
-        $('svg > rect:nth-child(2)', this).remove();
-
-        h2Content.push($(this).html());
-      });
+    const defs = $('div:first-child');
+    $('pattern#watermark', defs).remove();
 
 
-      res.json({
-        defs: defs.html(),
-        svgs: h2Content,
-      })
+    $('.svg-card').each(function() {
+      const text = $(this).html();
 
-    })
-    .catch(function(err) {
-      next(err);
+      $('.ShowPriceDetail', this).remove();
+      $('svg > rect:nth-child(2)', this).remove();
+
+      h2Content.push($(this).html());
     });
+
+
+    res.json({
+      defs: defs.html(),
+      svgs: h2Content,
+    })
+  } catch (err) {
+    next(err);
+  }
 });
 
 
