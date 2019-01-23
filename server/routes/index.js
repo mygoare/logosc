@@ -27,12 +27,13 @@ router.get('/crawler', async (req, res, next) => {
 
   try {
     const page = await browser.newPage();
-    if (proxy) {
+    if (proxy && proxy.username && proxy.pwd) {
       await page.authenticate({
         username: proxy.username,
         password: proxy.pwd
       });
     }
+    // https://stackoverflow.com/questions/46160929/puppeteer-wait-for-all-images-to-load-then-take-screenshot/46217285
     await page.goto(u, {"waitUntil" : "networkidle0"});
     const html = await page.content();
     await browser.close();

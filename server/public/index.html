@@ -307,6 +307,7 @@
           return Math.random();
         },
         dl: function(content) {
+          // https://stackoverflow.com/questions/23218174/how-do-i-save-export-an-svg-file-after-creating-an-svg-with-d3-js-ie-safari-an
           let svgData = content;
           let svgBlob = new Blob([svgData], {type: 'image/svg+xml;charset=utf-8'});
           let svgUrl = URL.createObjectURL(svgBlob);
